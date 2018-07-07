@@ -83,11 +83,23 @@ void Window::init(){
 }
 
 
-void Window::printInfos(){
+void Window::printInfos() const{
 	std::cout << "OpenGL loaded" << std::endl;
 	std::cout << "Vendor:   " << glGetString(GL_VENDOR) << std::endl;
 	std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;
 	std::cout << "Version:  " << glGetString(GL_VERSION) << std::endl;
+}
+
+
+
+int Window::getWidth() const{
+	return width;
+}
+
+
+
+int Window::getHeight() const{
+	return height;
 }
 
 

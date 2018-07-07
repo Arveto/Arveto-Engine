@@ -27,7 +27,9 @@ class Window{
 		Window(int w, int h);
 		Window(std::string title, int w, int h);
 
-		void printInfos();
+		void printInfos() const;
+		int getWidth() const;
+		int getHeight() const;
 
 		void init();
 		void refresh();
