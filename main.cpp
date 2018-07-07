@@ -78,28 +78,6 @@ int main() {
 	shader1.setViewMatrix(viewMatrix);
 	shader1.setProjectionMatrix(projectionMatrix);
 
-	std::cout << "Model:\n";
-	printf("[%f] [%f] [%f] [%f]\n", modelMatrix[0][0], modelMatrix[0][1], modelMatrix[0][2], modelMatrix[0][3]);
-	printf("[%f] [%f] [%f] [%f]\n", modelMatrix[1][0], modelMatrix[1][1], modelMatrix[1][2], modelMatrix[1][3]);
-	printf("[%f] [%f] [%f] [%f]\n", modelMatrix[2][0], modelMatrix[2][1], modelMatrix[2][2], modelMatrix[2][3]);
-	printf("[%f] [%f] [%f] [%f]\n", modelMatrix[3][0], modelMatrix[3][1], modelMatrix[3][2], modelMatrix[3][3]);
-
-	std::cout << std::endl;
-
-	std::cout << "view:\n";
-	printf("[%f] [%f] [%f] [%f]\n", viewMatrix[0][0], viewMatrix[0][1], viewMatrix[0][2], viewMatrix[0][3]);
-	printf("[%f] [%f] [%f] [%f]\n", viewMatrix[1][0], viewMatrix[1][1], viewMatrix[1][2], viewMatrix[1][3]);
-	printf("[%f] [%f] [%f] [%f]\n", viewMatrix[2][0], viewMatrix[2][1], viewMatrix[2][2], viewMatrix[2][3]);
-	printf("[%f] [%f] [%f] [%f]\n", viewMatrix[3][0], viewMatrix[3][1], viewMatrix[3][2], viewMatrix[3][3]);
-
-	std::cout << std::endl;
-
-	std::cout << "projection:\n";
-	printf("[%f] [%f] [%f] [%f]\n", projectionMatrix[0][0], projectionMatrix[0][1], projectionMatrix[0][2], projectionMatrix[0][3]);
-	printf("[%f] [%f] [%f] [%f]\n", projectionMatrix[1][0], projectionMatrix[1][1], projectionMatrix[1][2], projectionMatrix[1][3]);
-	printf("[%f] [%f] [%f] [%f]\n", projectionMatrix[2][0], projectionMatrix[2][1], projectionMatrix[2][2], projectionMatrix[2][3]);
-	printf("[%f] [%f] [%f] [%f]\n", projectionMatrix[3][0], projectionMatrix[3][1], projectionMatrix[3][2], projectionMatrix[3][3]);
-
 
 	/************************************************************************************************/
 
