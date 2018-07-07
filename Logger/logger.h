@@ -12,6 +12,7 @@
 template <typename T>
 void  log(const T) {
 	#ifdef DEBUG
-		std::cout << mesg << std::endl;
+		//WARNING Commented since caused compilation error (fix later)
+		//std::cout << mesg << std::endl;
 	#endif
 }

@@ -12,9 +12,8 @@ Window::Window(std::string title) : title(title) {}
 
 Window::Window(int w, int h) : width(w), height(h) {}
 
-Window::Window(std::string title, int w, int h) 
+Window::Window(std::string title, int w, int h)
 			: title(title), width(w), height(h) {}
-
 
 
 
@@ -43,14 +42,14 @@ void Window::init(){
 		/*********************************/
 	if (fullscreen) {
 		window = SDL_CreateWindow(
-			title.c_str(), 
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
+			title.c_str(),
+			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			0, 0, SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_OPENGL
 		);
 	} else {
 		window = SDL_CreateWindow(
-			title.c_str(), 
-			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
+			title.c_str(),
+			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			width, height, SDL_WINDOW_OPENGL
 		);
 	}
@@ -59,9 +58,8 @@ void Window::init(){
 		log("WINDOW::Init		Couldn't set video mode");
 
 	maincontext = SDL_GL_CreateContext(window);
-	if (maincontext == NULL) 
+	if (maincontext == NULL)
 		log("WINDOW::Init		Failed to create OpenGL context");
-
 
 
 			//GLAD : Load OpenGL functions
@@ -71,8 +69,6 @@ void Window::init(){
 	if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
 		std::cout << "Failed to initialize GLAD" << std::endl;
 	}
-
-
 
 	// Use v-sync, not an engine for pussys here
 	SDL_GL_SetSwapInterval(1);
@@ -95,6 +91,7 @@ void Window::printInfos(){
 }
 
 
+
 void Window::refresh(){
     SDL_GL_SwapWindow(window);
 }
@@ -107,6 +104,7 @@ void Window::pollEvents(){
 	if (event.type == SDL_QUIT)
 		closed = true;
 }
+
 
 
 bool Window::shouldClose(){
