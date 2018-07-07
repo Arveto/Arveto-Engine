@@ -94,6 +94,7 @@ void Window::printInfos(){
 
 void Window::refresh(){
     SDL_GL_SwapWindow(window);
+	SDL_Delay(1000/refreshRate);
 }
 
 
@@ -109,4 +110,10 @@ void Window::pollEvents(){
 
 bool Window::shouldClose(){
 	return closed;
+}
+
+
+
+void Window::setRefreshRate(unsigned int newRate){
+	refreshRate = newRate;
 }

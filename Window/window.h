@@ -19,6 +19,8 @@ class Window{
 		SDL_Event event;
 		bool closed = false;
 
+		unsigned int refreshRate = 60; //(in Hz)
+
 	public:
 		Window();
 		Window(std::string title);
@@ -32,4 +34,6 @@ class Window{
 
 		void pollEvents();
 		bool shouldClose();
+
+		void setRefreshRate(unsigned int newRate);
 };
