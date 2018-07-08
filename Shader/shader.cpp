@@ -81,27 +81,52 @@ Shader::Shader(char const* vertexPath, char const * fragmentPath){
 
 	// Activate the sharder
 /*****************************/
-void Shader::use(){ 
-	glUseProgram(ID); 
+void Shader::use(){
+	glUseProgram(ID);
 }
 
-void Shader::desactive(){
+void Shader::disable(){
 	glUseProgram(0);
 }
 
 
 	// Utility uniform functions
 /***********************************/
-void Shader::setBool(const std::string &name, bool value) const{		 
-	glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value); 
+	//Matrices (mandatory)
+//(stores and binds the matrices for now)
+void Shader::setModelMatrix(glm::mat4 value){
+	int modelLocation = glGetUniformLocation(ID, "modelMatrix");
+	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(value));
+
+	viewMatrix = value;
 }
 
-void Shader::setInt(const std::string &name, int value) const{ 
-	glUniform1i(glGetUniformLocation(ID, name.c_str()), value); 
+void Shader::setViewMatrix(glm::mat4 value){
+	int viewLocation = glGetUniformLocation(ID, "viewMatrix");
+	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(value));
+
+	viewMatrix = value;
 }
 
-void Shader::setFloat(const std::string &name, float value) const{ 
-	glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
+void Shader::setProjectionMatrix(glm::mat4 value){
+	int projectionLocation = glGetUniformLocation(ID, "projectionMatrix");
+	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(value));
+
+	viewMatrix = value;
+}
+
+
+	//Other params (optional)
+void Shader::setBool(const std::string &name, bool value) const{
+	glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
+}
+
+void Shader::setInt(const std::string &name, int value) const{
+	glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+}
+
+void Shader::setFloat(const std::string &name, float value) const{
+	glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 }
 
 

@@ -83,7 +83,7 @@ void Window::init(){
 }
 
 
-void Window::printInfos(){
+void Window::printInfos() const{
 	std::cout << "OpenGL loaded" << std::endl;
 	std::cout << "Vendor:   " << glGetString(GL_VENDOR) << std::endl;
 	std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;
@@ -92,8 +92,21 @@ void Window::printInfos(){
 
 
 
+int Window::getWidth() const{
+	return width;
+}
+
+
+
+int Window::getHeight() const{
+	return height;
+}
+
+
+
 void Window::refresh(){
     SDL_GL_SwapWindow(window);
+	SDL_Delay(1000/refreshRate);
 }
 
 
@@ -109,4 +122,10 @@ void Window::pollEvents(){
 
 bool Window::shouldClose(){
 	return closed;
+}
+
+
+
+void Window::setRefreshRate(unsigned int newRate){
+	refreshRate = newRate;
 }
