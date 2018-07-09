@@ -17,7 +17,7 @@ class Shader{
 	public:
 		unsigned int ID;
 
-		Shader(char const * vertexPath, char const * fragmentPath);
+		Shader(std::string vertexPath, std::string fragmentPath);
 
 		void use();
 		void disable();

@@ -20,7 +20,7 @@ int main() {
 	window.printInfos();
 
 
-	Shader shader1("src/shaders/shader.vert", "src/shaders/shader.frag");
+	Shader shader1("shader", "shader");
 
 
 

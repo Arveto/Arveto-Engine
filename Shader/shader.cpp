@@ -14,7 +14,7 @@
 
 	// Shader loader constructor
 /***********************************/
-Shader::Shader(char const* vertexPath, char const * fragmentPath){
+Shader::Shader(std::string vertexName, std::string fragmentName){
 
 	// 1. retrieve the vertex/fragment source code from filePath
 	std::string vertexCode;
@@ -26,10 +26,13 @@ Shader::Shader(char const* vertexPath, char const * fragmentPath){
 	vShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
 	fShaderFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
 
+	std::string path ("src/shaders/");
+
+
 	try{
 		// open files
-		vShaderFile.open(vertexPath);
-		fShaderFile.open(fragmentPath);
+		vShaderFile.open(path + vertexName + ".vert");
+		fShaderFile.open(path + fragmentName + ".frag");
 		std::stringstream vShaderStream, fShaderStream;
 		// read file's buffer contents into streams
 		vShaderStream << vShaderFile.rdbuf();
@@ -40,6 +43,10 @@ Shader::Shader(char const* vertexPath, char const * fragmentPath){
 		// convert stream into string
 		vertexCode   = vShaderStream.str();
 		fragmentCode = fShaderStream.str();
+
+		std::cout << vertexCode <<std::endl;
+		std::cout <<  fragmentCode <<std::endl;
+
 
 	} catch (std::ifstream::failure e) {
 		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
