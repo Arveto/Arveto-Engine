@@ -112,7 +112,9 @@ void Window::refresh(){
 
 
 void Window::pollEvents(){
-	SDL_PollEvent(&event);
+	while(SDL_PollEvent(&event)){
+		//No event management for now
+	};
 
 	if (event.type == SDL_QUIT)
 		closed = true;
@@ -122,6 +124,12 @@ void Window::pollEvents(){
 
 bool Window::shouldClose(){
 	return closed;
+}
+
+
+
+unsigned int Window::getRefreshRate(){
+	return refreshRate;
 }
 
 

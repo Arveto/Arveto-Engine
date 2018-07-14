@@ -37,5 +37,6 @@ class Window{
 		void pollEvents();
 		bool shouldClose();
 
+		unsigned int getRefreshRate();
 		void setRefreshRate(unsigned int newRate);
 };
