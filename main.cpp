@@ -114,6 +114,8 @@ int main() {
 	Window &windowRef = window;
 	Camera camera(glm::vec3(0.0f, 0.0f,  3.0f), windowRef);
 
+	window.bindCamera(&camera);
+
 	//Cam init
 	shader1.setViewMatrix(camera.setView());
 	/************************************************************************************************/
@@ -126,7 +128,6 @@ int main() {
 		window.refresh();
 		window.pollEvents();
 
-		camera.move();
 		shader1.setViewMatrix(camera.setView());
 
         	// Render

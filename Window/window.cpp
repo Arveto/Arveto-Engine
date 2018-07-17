@@ -113,7 +113,12 @@ void Window::refresh(){
 
 void Window::pollEvents(){
 	while(SDL_PollEvent(&event)){
-		//No event management for now
+		//No particular event management for now
+
+		//Camera input management (if a camera is binded)
+		if(camera != NULL){
+			camera->move(event);
+		}
 	};
 
 	if (event.type == SDL_QUIT)
@@ -136,4 +141,10 @@ unsigned int Window::getRefreshRate(){
 
 void Window::setRefreshRate(unsigned int newRate){
 	refreshRate = newRate;
+}
+
+
+void Window::bindCamera(Camera * bindedCamera){
+	//Call this method with a NULL pointer to unbind
+	camera = bindedCamera;
 }

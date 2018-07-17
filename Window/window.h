@@ -5,6 +5,8 @@
 #include <glad/glad.h>
 #include <SDL2/SDL.h>
 
+#include "../Camera/camera.h"
+
 class Window{
 	private:
 		std::string title = "Arveto Engine";
@@ -16,10 +18,10 @@ class Window{
 		SDL_Window *window;
 		SDL_GLContext maincontext;
 
-		SDL_Event event;
 		bool closed = false;
-
 		unsigned int refreshRate = 60; //(in Hz)
+
+		Camera * camera = NULL;	//Binded Camera object for input management
 
 	public:
 		Window();
@@ -34,9 +36,12 @@ class Window{
 		void init();
 		void refresh();
 
+		SDL_Event event;
 		void pollEvents();
 		bool shouldClose();
 
 		unsigned int getRefreshRate();
 		void setRefreshRate(unsigned int newRate);
+
+		void bindCamera(Camera * camera);
 };
