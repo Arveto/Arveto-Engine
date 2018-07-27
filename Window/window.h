@@ -44,4 +44,5 @@ class Window{
 		void setRefreshRate(unsigned int newRate);
 
 		void bindCamera(Camera * camera);
+
 };

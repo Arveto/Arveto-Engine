@@ -46,7 +46,7 @@ Shader::Shader(std::string vertexName, std::string fragmentName){
 
 
 	} catch (const std::exception& ex) {
-		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+		std::cout << "ERROR (could not read shader file)" << std::endl;
 	}
 
 
@@ -143,7 +143,7 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type){
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << std::endl << infoLog << std::endl;
+			std::cout << "ERROR (shader compilation): " << type << std::endl << infoLog << std::endl;
 		}
 	}
 	else
@@ -152,7 +152,7 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type){
 		if (!success)
 		{
 			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << std::endl << infoLog << std::endl;
+			std::cout << "ERROR (linking shader): " << type << std::endl << infoLog << std::endl;
 		}
 	}
 }
