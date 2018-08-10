@@ -226,10 +226,10 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene){
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
     //Assumes that textures are named as follows:
-    //texture_diffuseN
-    //"texture_SpecularN"
+    //"texture_diffuseN"
+    //"texture_specularN"
     //etc..
-    //Where N is an positive integer
+    //Where N is a positive integer
 
     //Diffuse maps
     vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");

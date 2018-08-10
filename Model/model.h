@@ -10,6 +10,9 @@
 #include <assimp/postprocess.h>
 
 using namespace std;
+class Scene;
+
+#define NO_SCENE -1 //Value for the sceneId of Model class
 
 
 /************************************************************************************************/
@@ -64,10 +67,15 @@ public:
     Model(string path); //Path from 'resources/models'
     void render(Shader shader);
     vector<Texture> loadedTex;
+    glm::vec3 position;
+
+        //Functions to add/remove a model of a scene
+    friend class Scene;
 
 private:
     vector <Mesh> meshes;
     string directory;
+    int sceneId = -1;    //Stores the index in the scene "models" array, for quick removal/acces from Scene
 
     void processNode(aiNode *node, const aiScene *scene);
     Mesh processMesh(aiMesh *mesh, const aiScene *scene);

@@ -1,4 +1,4 @@
-COMPONENTS = window.o shader.o camera.o model.o
+COMPONENTS = window.o shader.o camera.o model.o scene.o
 
 
 all: a.out clean
@@ -19,6 +19,8 @@ camera.o : Camera/camera.cpp
 model.o : Model/model.cpp
 	g++ -c -std=c++17 Model/model.cpp -Wall
 
+scene.o : Scene/scene.cpp
+	g++ -c -std=c++17 Scene/scene.cpp src/glad/glad.c -Wall
 
 
 clean:

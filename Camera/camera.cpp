@@ -2,13 +2,15 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/glm.hpp>
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/rotate_vector.hpp>
+
 #include "camera.h"
 #include "../Window/window.h"
 
 
-Camera::Camera(glm::vec3 initPos, Window &window){
+Camera::Camera(glm::vec3 initPos){
     pos = initPos;
-    timeDivision = window.getRefreshRate() / 1000.0;
 
     //Used to get mouse movements
     SDL_SetRelativeMouseMode(SDL_TRUE);
@@ -20,10 +22,10 @@ glm::mat4 Camera::setView(){
 }
 
 
-void Camera::move(SDL_Event event){
+void Camera::move(SDL_Event event, unsigned int refreshRate){
     //This method will be called inside Window.pollEvents after the Camera object being binded
 
-    // Rotation
+        // ***Rotation***
     if(event.type == SDL_MOUSEMOTION){
         float Xmov = event.motion.xrel * rotSpeed;
         float Ymov = event.motion.yrel * rotSpeed;
@@ -45,7 +47,10 @@ void Camera::move(SDL_Event event){
         frontAxis = glm::normalize(newFront);
     }
 
-    // Translations
+        // ***Translations***
+
+    float timeDivision =  1.0 / refreshRate;
+
     const Uint8 *keystates = SDL_GetKeyboardState( NULL );
 
     if(keystates[SDL_SCANCODE_W])   //Forward
@@ -61,6 +66,6 @@ void Camera::move(SDL_Event event){
     if(keystates[SDL_SCANCODE_D])   //Right
         pos = pos + glm::normalize(glm::cross(frontAxis, upAxis)) * movSpeed * timeDivision;
 
-    //WARNING When moving in diagonal, both vectors are added, resulting in a higher movement speed
+    // //WARNING When moving in diagonal, both vectors are added, resulting in a higher movement speed
 
 }

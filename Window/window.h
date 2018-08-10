@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <SDL2/SDL.h>
 
-#include "../Camera/camera.h"
+#include "../Scene/scene.h"
 
 class Window{
 	private:
@@ -21,7 +21,7 @@ class Window{
 		bool closed = false;
 		unsigned int refreshRate = 60; //(in Hz)
 
-		Camera * camera = NULL;	//Binded Camera object for input management
+		Scene * scene = NULL;	//Binded Camera object for input management
 
 	public:
 		Window();
@@ -43,6 +43,7 @@ class Window{
 		unsigned int getRefreshRate();
 		void setRefreshRate(unsigned int newRate);
 
-		void bindCamera(Camera * camera);
+		void bindScene(Scene * scene);
+		//TODO Unbind scene function (too lazy for now)
 
 };
