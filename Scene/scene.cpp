@@ -109,12 +109,26 @@ void Scene::unbindModel(Model * unbindedModel){
 
 void Scene::render(){ //TODO Error management returning int
 
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);   //TODO Select background color, then skybox?
+    glClearColor(0.38f, 0.71f, 1.0f, 1.0f);   //TODO Select background color, then skybox?
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     shader->setViewMatrix(camera->setView());
 
     for(unsigned int i=0; i<models.size(); i++){
+        //Set model matrix for our model
+        glm::mat4 modelMatrix = glm::mat4(1.0f);
+
+        //1: Translate (first so the position is not re-scaled)
+        modelMatrix = glm::translate(modelMatrix, models[i]->position);
+
+        //2: Rotate
+        modelMatrix = glm::rotate(modelMatrix, glm::radians(models[i]->rotationAngle), models[i]->rotationVec);
+
+        //3:Scale
+        modelMatrix = glm::scale(modelMatrix, models[i]->scale);
+
+
+        shader->setModelMatrix(modelMatrix);
         models[i]->render(*shader);
     }
 }

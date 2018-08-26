@@ -14,6 +14,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <cmath>
 
 #include "../Shader/shader.h"
 #include "model.h"
@@ -122,6 +123,11 @@ Model::Model(string path){
     path = "resources/models/" + path;
     const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
+    //Create vectors to determine size of models
+    glm::vec3 minCoords = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 maxCoords = glm::vec3(0.0f, 0.0f, 0.0f);
+
+
     //Look for error importing file
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
         cout << "ERROR (importing model): " << import.GetErrorString() << endl;
@@ -130,7 +136,11 @@ Model::Model(string path){
 
     directory = path.substr(0, path.find_last_of('/'));
 
-    processNode(scene->mRootNode, scene);
+    processNode(scene->mRootNode, scene, minCoords, maxCoords);
+
+    size = glm::vec3(abs(minCoords.x-maxCoords.x), abs(minCoords.y-maxCoords.y), abs(minCoords.z-maxCoords.z));
+
+    std::cout<<"Size vector: ("<<size.x<<", "<<size.y<<", "<<size.z<<")"<<std::endl;
 
 
     cout<<directory<<endl;
@@ -148,21 +158,21 @@ void Model::render(Shader shader){
 }
 
 
-void Model::processNode(aiNode *node, const aiScene *scene){
+void Model::processNode(aiNode *node, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords){
 
     //If the node contains meshes
     for(unsigned int i = 0; i < node->mNumMeshes; i++){
         aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-        meshes.push_back(processMesh(mesh, scene));
+        meshes.push_back(processMesh(mesh, scene, minCoords, maxCoords));
     }
     //If the node has children
     for(unsigned int i = 0; i < node->mNumChildren; i++){
-        processNode(node->mChildren[i], scene);
+        processNode(node->mChildren[i], scene, minCoords, maxCoords);
     }
 }
 
 
-Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene){
+Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords){
 
     //Declaration of data to gather
     vector<Vertex> vertices;
@@ -180,6 +190,22 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene){
         vector.y = mesh->mVertices[i].y;
         vector.z = mesh->mVertices[i].z;
         vertex.position = vector;
+
+        //Keep trak of the min/max coords to determine model box
+        if(vector.x < minCoords.x)
+            minCoords.x = vector.x;
+        else if(vector.x > maxCoords.x)
+            maxCoords.x = vector.x;
+
+        if(vector.y < minCoords.y)
+            minCoords.y = vector.y;
+        else if(vector.y > maxCoords.y)
+            maxCoords.y = vector.y;
+
+        if(vector.z < minCoords.z)
+            minCoords.z = vector.z;
+        else if(vector.z > maxCoords.z)
+            maxCoords.z = vector.z;
 
         //Normals
         vector.x = mesh->mNormals[i].x;
@@ -310,4 +336,16 @@ unsigned int Model::textureFromFile(const char *path, const string &directory){
     }
 
     return textureID;
+}
+
+
+
+glm::vec3 Model::getSize(){
+    return size;
+}
+
+void Model::setSize(glm::vec3 newSize){
+    scale.x = newSize.x / size.x;
+    scale.y = newSize.y / size.y;
+    scale.z = newSize.z / size.z;
 }
