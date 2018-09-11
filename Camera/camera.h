@@ -20,8 +20,6 @@ private:
     glm::vec3 frontAxis = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 upAxis = glm::vec3(0.0f, 1.0f, 0.0f);
 
-    float movSpeed = 0.5;   // Keyboard input (unit/sec)
-    float rotSpeed = 5;  // Mouse input (deg/px)
 
     // About mouse input system:
     // We consider that a camera does 360deg in 10 000 px
@@ -33,5 +31,8 @@ public:
     Camera(glm::vec3 initPos);
     glm::mat4 setView();    //Returns viewMatrix for vertex shaders
     void move(SDL_Event event, unsigned int refreshRate);
+
+    float movSpeed = 0.5;   // Keyboard input (unit/sec)
+    float rotSpeed = 5;  // Mouse input (deg/px)
 
 };

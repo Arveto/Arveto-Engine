@@ -126,6 +126,7 @@ Model::Model(string path){
     //Create vectors to determine size of models
     glm::vec3 minCoords = glm::vec3(0.0f, 0.0f, 0.0f);
     glm::vec3 maxCoords = glm::vec3(0.0f, 0.0f, 0.0f);
+    bool firstNode = true;
 
 
     //Look for error importing file
@@ -136,12 +137,12 @@ Model::Model(string path){
 
     directory = path.substr(0, path.find_last_of('/'));
 
-    processNode(scene->mRootNode, scene, minCoords, maxCoords);
+    //Process root node
+    processNode(scene->mRootNode, scene, minCoords, maxCoords, firstNode);
 
+    //Calculate attributes
     size = glm::vec3(abs(minCoords.x-maxCoords.x), abs(minCoords.y-maxCoords.y), abs(minCoords.z-maxCoords.z));
-
-    std::cout<<"Size vector: ("<<size.x<<", "<<size.y<<", "<<size.z<<")"<<std::endl;
-
+    offset = glm::vec3((maxCoords.x+minCoords.x)/2.0f, (maxCoords.y+minCoords.y)/2.0f, (maxCoords.z+minCoords.z)/2.0f);
 
     cout<<directory<<endl;
 
@@ -158,21 +159,21 @@ void Model::render(Shader shader){
 }
 
 
-void Model::processNode(aiNode *node, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords){
+void Model::processNode(aiNode *node, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords, bool& firstNode){
 
     //If the node contains meshes
     for(unsigned int i = 0; i < node->mNumMeshes; i++){
         aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-        meshes.push_back(processMesh(mesh, scene, minCoords, maxCoords));
+        meshes.push_back(processMesh(mesh, scene, minCoords, maxCoords, firstNode));
     }
     //If the node has children
     for(unsigned int i = 0; i < node->mNumChildren; i++){
-        processNode(node->mChildren[i], scene, minCoords, maxCoords);
+        processNode(node->mChildren[i], scene, minCoords, maxCoords, firstNode);
     }
 }
 
 
-Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords){
+Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords, bool& firstNode){
 
     //Declaration of data to gather
     vector<Vertex> vertices;
@@ -190,6 +191,12 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene, glm::vec3& minCoords
         vector.y = mesh->mVertices[i].y;
         vector.z = mesh->mVertices[i].z;
         vertex.position = vector;
+
+        if(firstNode){
+            minCoords = vector;
+            maxCoords = vector;
+            firstNode = false;
+        }
 
         //Keep trak of the min/max coords to determine model box
         if(vector.x < minCoords.x)

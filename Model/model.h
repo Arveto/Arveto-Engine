@@ -78,8 +78,6 @@ public:
     void setSize(glm::vec3 newSize);
 
 
-
-
         //Functions to add/remove a model of a scene
     friend class Scene;
 
@@ -88,13 +86,14 @@ private:
     string directory;
     int sceneId = -1;    //Stores the index in the scene "models" array, for quick removal/acces from Scene
 
-    void processNode(aiNode *node, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords);
-    Mesh processMesh(aiMesh *mesh, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords);
+    void processNode(aiNode *node, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords, bool& firstNode);
+    Mesh processMesh(aiMesh *mesh, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords, bool& firstNode);
 
     vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName);
     unsigned int textureFromFile(const char *path, const string &directory);
 
 
     glm::vec3 size;     //Original size of model
+    glm::vec3 offset;   //Allows to center the model matrix on centroid of model
 
 };

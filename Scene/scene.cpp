@@ -118,11 +118,12 @@ void Scene::render(){ //TODO Error management returning int
         //Set model matrix for our model
         glm::mat4 modelMatrix = glm::mat4(1.0f);
 
-        //1: Translate (first so the position is not re-scaled)
-        modelMatrix = glm::translate(modelMatrix, models[i]->position);
 
-        //2: Rotate
+        //1: Rotate (first so position vector does not rotate)
         modelMatrix = glm::rotate(modelMatrix, glm::radians(models[i]->rotationAngle), models[i]->rotationVec);
+
+        //2: Translate (second so the position is not re-scaled)
+        modelMatrix = glm::translate(modelMatrix, models[i]->position - models[i]->offset);
 
         //3:Scale
         modelMatrix = glm::scale(modelMatrix, models[i]->scale);

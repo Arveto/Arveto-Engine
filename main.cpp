@@ -25,7 +25,8 @@ int main() {
 
 
 	Shader shader1("modelShader", "modelShader");
-	Camera camera1(glm::vec3(0.0f, 0.0f,  3.0f));
+	Camera camera1(glm::vec3(0.0f, 0.0f,  0.0f));
+	camera1.movSpeed = 1.0;
 
 
 	/************************************************************************************************/
@@ -60,14 +61,14 @@ int main() {
 
 	window.bindScene(&scene);
 
-	model1.position = glm::vec3(0.0f, 0.0f, 0.0f);
-	model1.rotationAngle = -90.0f;
-	model1.rotationVec = glm::vec3(1.0f, 0.0f, 0.0f);
-	model1.scale = glm::vec3(1.5f, 1.5f, 1.5f);
+	model1.position = glm::vec3(4.0f, 0.0f, 0.6f);
+	model1.rotationAngle = 90.0f;
+	model1.rotationVec = glm::vec3(-1.0f, 0.0f, 0.0f);
+	model1.scale = glm::vec3(2.0f, 2.0f, 2.0f);
 
-	model2.position = glm::vec3(28.0f, 15.7f, -13.0f);
+	model2.position = glm::vec3(0.0f, 0.0f, 0.0f);
 	model2.rotationAngle = 180.0f;
-	model2.rotationVec = glm::vec3(1.0f, 0.0f, 0.0f);
+	model2.rotationVec = glm::vec3(1.0f, 0.0f, 1.0f);
 	/************************************************************************************************/
 
 		//Game loop
