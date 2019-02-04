@@ -33,8 +33,7 @@ int main() {
 
 			//Load model
 
-	Model model1("gamejam_trump/scene.gltf");
-	Model model2("houses_pokrovskoe_streshnevo/scene.gltf");
+	Model model1("Zero Suit Samus/DolSzerosuitR1.obj");
 
 
 	/************************************************************************************************/
@@ -57,18 +56,12 @@ int main() {
 
 	Scene scene(&shader1, &camera1);
 	scene.bindModel(&model1);
-	scene.bindModel(&model2);
 
 	window.bindScene(&scene);
 
-	model1.position = glm::vec3(4.0f, 0.0f, 0.6f);
-	model1.rotationAngle = 90.0f;
-	model1.rotationVec = glm::vec3(-1.0f, 0.0f, 0.0f);
-	model1.scale = glm::vec3(2.0f, 2.0f, 2.0f);
+	model1.position = glm::vec3(3.0f, -1.0f, 0.0f);
+	model1.scale = glm::vec3(0.8f, 0.8f, 0.8f);
 
-	model2.position = glm::vec3(0.0f, 0.0f, 0.0f);
-	model2.rotationAngle = 180.0f;
-	model2.rotationVec = glm::vec3(1.0f, 0.0f, 1.0f);
 	/************************************************************************************************/
 
 		//Game loop

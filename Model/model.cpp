@@ -132,7 +132,6 @@ Model::Model(string path){
     //Look for error importing file
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
         cout << "ERROR (importing model): " << import.GetErrorString() << endl;
-        return;
     }
 
     directory = path.substr(0, path.find_last_of('/'));
