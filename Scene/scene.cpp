@@ -94,16 +94,57 @@ void Scene::unbindCamera(){
 
 
 
-void Scene::bindModel(Model * bindedModel){
-    models.push_back(bindedModel);
+void Scene::bindElement(Model * bindedModel){
+    ListElement newElement;
+    newElement.model = bindedModel;
+
+    models.push_back(newElement);
     bindedModel->sceneId = models.size() - 1;
+
+
 }
 
 
-void Scene::unbindModel(Model * unbindedModel){
+void Scene::unbindElement(Model * unbindedModel){
     models.erase(models.begin() + unbindedModel->sceneId);
+    int removalId = unbindedModel->sceneId;
     unbindedModel->sceneId = -1;
+
+    //Update new IDs
+    for(unsigned int i=removalId; i<models.size(); i++){
+        if(models[i].model != NULL)
+            models[i].model->sceneId --;
+
+        else if(models[i].shape != NULL)
+            models[i].shape->sceneId --;
+    }
 }
+
+
+void Scene::bindElement(Shape * bindedShape){
+    ListElement newElement;
+    newElement.shape = bindedShape;
+
+    models.push_back(newElement);
+    bindedShape->sceneId = models.size() - 1;
+}
+
+
+void Scene::unbindElement(Shape * unbindedShape){
+    models.erase(models.begin() + unbindedShape->sceneId);
+    int removalId = unbindedShape->sceneId;
+    unbindedShape->sceneId = -1;
+
+    //Update new IDs
+    for(unsigned int i=removalId; i<models.size(); i++){
+        if(models[i].model != NULL)
+            models[i].model->sceneId --;
+
+        else if(models[i].shape != NULL)
+            models[i].shape->sceneId --;
+    }
+}
+
 
 
 
@@ -119,17 +160,35 @@ void Scene::render(){ //TODO Error management returning int
         glm::mat4 modelMatrix = glm::mat4(1.0f);
 
 
-        //1: Rotate (first so position vector does not rotate)
-        modelMatrix = glm::rotate(modelMatrix, glm::radians(models[i]->rotationAngle), models[i]->rotationVec);
+        if(models[i].model != NULL){
+            //1: Rotate (first so position vector does not rotate)
+            modelMatrix = glm::rotate(modelMatrix, glm::radians(models[i].model->rotationAngle), models[i].model->rotationVec);
 
-        //2: Translate (second so the position is not re-scaled)
-        modelMatrix = glm::translate(modelMatrix, models[i]->position - models[i]->offset);
+            //2: Translate (second so the position is not re-scaled)
+            modelMatrix = glm::translate(modelMatrix, models[i].model->position - models[i].model->offset);
 
-        //3:Scale
-        modelMatrix = glm::scale(modelMatrix, models[i]->scale);
+            //3:Scale
+            modelMatrix = glm::scale(modelMatrix, models[i].model->scale);
+
+            shader->setModelMatrix(modelMatrix);
+            models[i].model->render(*shader);
+        }
+
+        else if(models[i].shape != NULL){
+            //1: Rotate (first so position vector does not rotate)
+            modelMatrix = glm::rotate(modelMatrix, glm::radians(models[i].shape->rotationAngle), models[i].shape->rotationVec);
+
+            //2: Translate (second so the position is not re-scaled)
+            modelMatrix = glm::translate(modelMatrix, models[i].shape->position);
+
+            //3:Scale
+            modelMatrix = glm::scale(modelMatrix, models[i].shape->scale);
+
+            shader->setModelMatrix(modelMatrix);
+            models[i].shape->render(*shader);
+        }
 
 
-        shader->setModelMatrix(modelMatrix);
-        models[i]->render(*shader);
+
     }
 }

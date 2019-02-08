@@ -9,6 +9,8 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "object.h"
+
 using namespace std;
 class Scene;
 
@@ -60,22 +62,12 @@ private:
 
 
 //Contains mesh, texture data, as well as position
-//TODO: CSS like attributes
-class Model{
+class Model: public Object{
 
 public:
     Model(string path); //Path from 'resources/models'
     void render(Shader shader);
     vector<Texture> loadedTex;
-
-        //Render parameters
-    glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::vec3 rotationVec = glm::vec3(1.0f, 0.0f, 0.0f);   //WARNING 1.0 equals a 90 deg rotation
-    float rotationAngle = -0.0f;
-    glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);     //Size factor
-
-    glm::vec3 getSize();    //Return curent dimensions of model
-    void setSize(glm::vec3 newSize);
 
 
         //Functions to add/remove a model of a scene
@@ -84,16 +76,14 @@ public:
 private:
     vector <Mesh> meshes;
     string directory;
-    int sceneId = -1;    //Stores the index in the scene "models" array, for quick removal/acces from Scene
+    int sceneId = -1;   // = Index in the Scene array
 
     void processNode(aiNode *node, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords, bool& firstNode);
     Mesh processMesh(aiMesh *mesh, const aiScene *scene, glm::vec3& minCoords, glm::vec3& maxCoords, bool& firstNode);
 
     vector<Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, string typeName);
     unsigned int textureFromFile(const char *path, const string &directory);
-
-
-    glm::vec3 size;     //Original size of model
     glm::vec3 offset;   //Allows to center the model matrix on centroid of model
+    glm::vec3 size; //= originalSize * scale;
 
 };

@@ -5,6 +5,7 @@
 #include "../Shader/shader.h"
 #include "../Camera/camera.h"
 #include "../Model/model.h"
+#include "../Model/shape.h"
 
     //TODO Implement error management
 #define NULL_CAMERA -1
@@ -12,6 +13,13 @@
 #define NULL_CAM_SHADER -3
 
 class Window;
+
+
+struct ListElement{
+    Shape * shape = NULL;
+    Model * model = NULL;
+};
+
 
 class Scene{
 public:
@@ -30,8 +38,10 @@ public:
     void unbindShaders();
     void unbindCamera();
 
-    void bindModel(Model * bindedModel);
-    void unbindModel(Model * unbindedModel);
+    void bindElement(Model * bindedModel);
+    void unbindElement(Model * unbindedModel);
+    void bindElement(Shape * bindedShape);
+    void unbindElement(Shape * unbindedShape);
 
     void render();  //TODO Error management for this function
 
@@ -41,7 +51,7 @@ private:
     //We use classic pointers because references couldn't be NULL-initialized
     Shader * shader = NULL;
     Camera * camera = NULL;
-    std::vector<Model*> models = {};
+    std::vector<ListElement> models = {};
 
     unsigned int * refreshRate = NULL;
 };

@@ -98,6 +98,7 @@ void Mesh::render(Shader shader){
 
          //Render correct texture
         glUniform1i(glGetUniformLocation(shader.ID, (name + number).c_str()), i);
+        shader.setVec3("lightColor", glm::vec3(0.8f, 1.0f, 0.8f));
         //Bind
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
@@ -151,6 +152,7 @@ Model::Model(string path){
 //Functions
 
 void Model::render(Shader shader){
+
 
     //Loops through all meshes and render them
     for(unsigned int i = 0; i < meshes.size(); i++)
@@ -212,6 +214,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene, glm::vec3& minCoords
             minCoords.z = vector.z;
         else if(vector.z > maxCoords.z)
             maxCoords.z = vector.z;
+
 
         //Normals
         vector.x = mesh->mNormals[i].x;
@@ -342,16 +345,4 @@ unsigned int Model::textureFromFile(const char *path, const string &directory){
     }
 
     return textureID;
-}
-
-
-
-glm::vec3 Model::getSize(){
-    return size;
-}
-
-void Model::setSize(glm::vec3 newSize){
-    scale.x = newSize.x / size.x;
-    scale.y = newSize.y / size.y;
-    scale.z = newSize.z / size.z;
 }

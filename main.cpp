@@ -8,6 +8,7 @@
 #include "Shader/shader.h"
 #include "Camera/camera.h"
 #include "Model/model.h"
+#include "Model/shape.h"
 #include "Scene/scene.h"
 
 
@@ -24,7 +25,7 @@ int main() {
 	window.printInfos();
 
 
-	Shader shader1("modelShader", "modelShader");
+	Shader shader1("modelShader", "lightShader");
 	Camera camera1(glm::vec3(0.0f, 0.0f,  0.0f));
 	camera1.movSpeed = 1.0;
 
@@ -34,6 +35,7 @@ int main() {
 			//Load model
 
 	Model model1("Zero Suit Samus/DolSzerosuitR1.obj");
+	Shape shape1(SQUARE);
 
 
 	/************************************************************************************************/
@@ -55,7 +57,8 @@ int main() {
 		//Scene creation
 
 	Scene scene(&shader1, &camera1);
-	scene.bindModel(&model1);
+	scene.bindElement(&model1);
+	scene.bindElement(&shape1);
 
 	window.bindScene(&scene);
 
